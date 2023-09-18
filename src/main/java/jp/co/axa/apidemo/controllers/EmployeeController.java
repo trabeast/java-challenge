@@ -1,5 +1,6 @@
 package jp.co.axa.apidemo.controllers;
 
+import jp.co.axa.apidemo.controllers.response.ResponseWithBody;
 import jp.co.axa.apidemo.dtos.EmployeeRequestDTO;
 import jp.co.axa.apidemo.dtos.EmployeeResponseDTO;
 import jp.co.axa.apidemo.dtos.PostEmployeeRequestDTO;
@@ -9,8 +10,11 @@ import jp.co.axa.apidemo.services.EmployeeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -40,9 +44,15 @@ public class EmployeeController {
     }
 
     @PostMapping("/employees")
-    public void saveEmployee(@RequestBody PostEmployeeRequestDTO requestDTO){
+    public ResponseEntity<ResponseWithBody<PostEmployeeResponseDTO>> saveEmployee(
+            @Valid
+            @RequestBody
+            PostEmployeeRequestDTO requestDTO){
         PostEmployeeResponseDTO responseDTO = (PostEmployeeResponseDTO) employeeService.saveEmployee(requestDTO);
         LOGGER.info("Employee Saved Successfully");
+        return new ResponseEntity<>(
+                new ResponseWithBody<>("Employee Saved Successfully", responseDTO),
+                HttpStatus.CREATED);
     }
 
     @DeleteMapping("/employees/{employeeId}")
