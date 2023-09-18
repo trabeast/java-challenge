@@ -1,5 +1,9 @@
 package jp.co.axa.apidemo.controllers;
 
+import jp.co.axa.apidemo.dtos.EmployeeRequestDTO;
+import jp.co.axa.apidemo.dtos.EmployeeResponseDTO;
+import jp.co.axa.apidemo.dtos.PostEmployeeRequestDTO;
+import jp.co.axa.apidemo.dtos.PostEmployeeResponseDTO;
 import jp.co.axa.apidemo.entities.Employee;
 import jp.co.axa.apidemo.services.EmployeeService;
 import org.slf4j.Logger;
@@ -15,10 +19,12 @@ public class EmployeeController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeController.class);
 
-    @Autowired
-    private EmployeeService employeeService;
+    private final EmployeeService<EmployeeResponseDTO, EmployeeRequestDTO> employeeService;
 
-    public void setEmployeeService(EmployeeService employeeService) {
+    public EmployeeController(
+            @Autowired()
+            EmployeeService<EmployeeResponseDTO, EmployeeRequestDTO> employeeService
+    ) {
         this.employeeService = employeeService;
     }
 
@@ -34,8 +40,8 @@ public class EmployeeController {
     }
 
     @PostMapping("/employees")
-    public void saveEmployee(Employee employee){
-        employeeService.saveEmployee(employee);
+    public void saveEmployee(@RequestBody PostEmployeeRequestDTO requestDTO){
+        PostEmployeeResponseDTO responseDTO = (PostEmployeeResponseDTO) employeeService.saveEmployee(requestDTO);
         LOGGER.info("Employee Saved Successfully");
     }
 

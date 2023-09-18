@@ -1,5 +1,8 @@
 package jp.co.axa.apidemo.services;
 
+import jp.co.axa.apidemo.dtos.EmployeeRequestDTO;
+import jp.co.axa.apidemo.dtos.EmployeeResponseDTO;
+import jp.co.axa.apidemo.dtos.PostEmployeeResponseDTO;
 import jp.co.axa.apidemo.entities.Employee;
 import jp.co.axa.apidemo.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +12,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class EmployeeServiceImpl implements EmployeeService{
+public class EmployeeServiceImpl implements EmployeeService<EmployeeResponseDTO, EmployeeRequestDTO> {
 
-    @Autowired
-    private EmployeeRepository employeeRepository;
+    private final EmployeeRepository employeeRepository;
 
-    public void setEmployeeRepository(EmployeeRepository employeeRepository) {
+    public EmployeeServiceImpl(
+            @Autowired
+            EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
 
@@ -28,11 +32,11 @@ public class EmployeeServiceImpl implements EmployeeService{
         return optEmp.get();
     }
 
-    public void saveEmployee(Employee employee){
-        employeeRepository.save(employee);
+    public PostEmployeeResponseDTO saveEmployee(EmployeeRequestDTO requestDTO) {
+        return new PostEmployeeResponseDTO(employeeRepository.save(requestDTO.toEmployee()));
     }
 
-    public void deleteEmployee(Long employeeId){
+    public void deleteEmployee(Long employeeId) {
         employeeRepository.deleteById(employeeId);
     }
 
