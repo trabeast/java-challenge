@@ -4,6 +4,8 @@ import jp.co.axa.apidemo.dtos.*;
 import jp.co.axa.apidemo.entities.Employee;
 import jp.co.axa.apidemo.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +24,7 @@ public class EmployeeServiceImpl implements EmployeeService<EmployeeResponseDTO,
         this.employeeRepository = employeeRepository;
     }
 
+    @Cacheable("employees")
     @Override
     public List<GetEmployeeResponseDTO> retrieveEmployees() {
         return employeeRepository
@@ -38,15 +41,18 @@ public class EmployeeServiceImpl implements EmployeeService<EmployeeResponseDTO,
         return new GetEmployeeResponseDTO(employee.get());
     }
 
+    @CacheEvict(value = "employees", allEntries = true)
     @Override
     public PostEmployeeResponseDTO saveEmployee(EmployeeRequestDTO requestDTO) {
         return new PostEmployeeResponseDTO(employeeRepository.save(requestDTO.toEmployee()));
     }
 
+    @CacheEvict(value = "employees", allEntries = true)
     public void deleteEmployee(Long employeeId) {
         employeeRepository.deleteById(employeeId);
     }
 
+    @CacheEvict(value = "employees", allEntries = true)
     @Override
     public PutEmployeeResponseDTO updateEmployee(EmployeeRequestDTO requestDTO) {
         return new PutEmployeeResponseDTO(employeeRepository.save(requestDTO.toEmployee()));
