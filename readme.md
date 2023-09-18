@@ -57,7 +57,14 @@ Please let us know more about your Java experience in a few sentences. For examp
 - Added a custom exception handler to handle exceptions thrown by the controller apis.
 - Removed direct use of entities in request param and instead use data transfer objects.
 - Added caching for the employee service.
-- Added a response body that contains a message and/or a list of employees. (For POST and PUT, it returns a singleton list of employee)
+- Added a response body that contains a message and/or a list of employees. (For POST and PUT, it returns a singleton list of employee, I decided to make it uniform across apis.)
 - Added logging instead of using system std output.
 - Moved dependency injection to constructor. This will help us limit our number of dependencies per bean.
 - Added few swagger documentation.
+
+### Improvements
+- Change the data type of salary to BigDecimal. This will help us avoid floating point precision issues.
+- Change the default response error message received when validation constraint fails.
+
+### PS
+Thank you for the opportunity to work on this challenge. I had fun working on it. I hope to hear from you soon.

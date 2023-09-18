@@ -33,18 +33,33 @@ public class EmployeeController implements ControllerExceptionHandler {
         this.employeeService = employeeService;
     }
 
+    /**
+     * Get a list of all employees.
+     *
+     * @return On Success (200): {@link List} of employees
+     */
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Employees Retrieved Successfully")
     })
     @SuppressWarnings("unchecked")
     @GetMapping("/employees")
     public ResponseEntity<ResponseWithEmployees<GetEmployeeResponseDTO>> getEmployees() {
-        return ResponseEntity.ok (new ResponseWithEmployees<>(
+        return ResponseEntity.ok(new ResponseWithEmployees<>(
                 "Employees Retrieved Successfully",
                 (List<GetEmployeeResponseDTO>) employeeService.retrieveEmployees())
         );
     }
 
+    /**
+     * Get a single employee by id.
+     *
+     * @return
+     * <ul>
+     *     <li>On Success (200): a singleton {@link List} that contains the employee with {@code employeeId}.</li>
+     *     <li>On Failure (400): {@code employeeId} not existing</li>
+     * </ul>
+     *
+     */
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Employee Retrieved Successfully"),
             @ApiResponse(code = 400, message = "Employee Not Found")
@@ -56,6 +71,21 @@ public class EmployeeController implements ControllerExceptionHandler {
                 Collections.singletonList((GetEmployeeResponseDTO) employeeService.getEmployee(employeeId))));
     }
 
+    /**
+     * Save a new employee detail.
+     * @param requestDTO
+     * <ul>
+     *     <li>{@code name} of type {@link String} is required</li>
+     *     <li>{@code salary} of type {@link Integer} is required</li>
+     *     <li>{@code department} of type {@link String} is required</li>
+     * </ul>
+     * @return
+     * <ul>
+     *      <li>On Success (200): a singleton {@link List} that contains the new employee and id assigned to it.</li>
+     *      <li>On Failed (400): when required fields are missing or request body contains unknown fields.</li>
+     * </ul>
+     *
+     */
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Employee Saved Successfully"),
             @ApiResponse(code = 400, message = "Invalid request fields")
@@ -71,6 +101,15 @@ public class EmployeeController implements ControllerExceptionHandler {
                 Collections.singletonList((PostEmployeeResponseDTO) employeeService.saveEmployee(requestDTO))));
     }
 
+    /**
+     * Delete an employee by id.
+     * @return
+     * <ul>
+     *     <li>On Success (200)</li>
+     *     <li>On Failure (400): {@code employeeId} not existing.</li>
+     * </ul>
+     *
+     */
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Employee Deleted Successfully"),
             @ApiResponse(code = 400, message = "Employee Not Found")
@@ -82,6 +121,20 @@ public class EmployeeController implements ControllerExceptionHandler {
         return ResponseEntity.ok(new Response("Employee Deleted Successfully"));
     }
 
+    /**
+     * Update details of employee by id.
+     * @param requestDTO
+     * <ul>
+     *     <li>{@code name} of type {@link String} is required</li>
+     *     <li>{@code salary} of type {@link Integer} is required</li>
+     *     <li>{@code department} of type {@link String} is required</li>
+     * </ul>
+     * @return
+     * <ul>
+     *      <li>On Success (200): a singleton {@link List} that contains the updated employee.</li>
+     *      <li>On Failed (400): when required fields are missing or request body contains unknown fields.</li>
+     * </ul>
+     */
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Employee Updated Successfully"),
             @ApiResponse(code = 400, message = "Employee Not Found")

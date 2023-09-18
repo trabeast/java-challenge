@@ -13,6 +13,10 @@ public interface ControllerExceptionHandler {
 
     Logger LOGGER = LoggerFactory.getLogger(ControllerExceptionHandler.class);
 
+    /**
+     * Handle exceptions when no Employee with id is found.
+     * {@link EmployeeController#updateEmployee}, {@link EmployeeController#deleteEmployee}, and {@link EmployeeController#getEmployee} causes this exception.
+     */
     @ExceptionHandler({NoSuchElementException.class, EmptyResultDataAccessException.class})
     default ResponseEntity<Response> handleNoDataExceptions(Exception e) {
         LOGGER.error("Employee not found!", e);
