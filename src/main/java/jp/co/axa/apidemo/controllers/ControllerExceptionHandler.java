@@ -15,6 +15,7 @@ public interface ControllerExceptionHandler {
     @ExceptionHandler(NoSuchElementException.class)
     default ResponseEntity<Response> handleSQLException(NoSuchElementException e) {
         LOGGER.error("Employee not found!", e);
-        return ResponseEntity.badRequest().body(new Response("Employee not found!"));
+        return ResponseEntity.badRequest().body(
+                new Response("Employee not found! Make sure you are using a valid employee ID."));
     }
 }

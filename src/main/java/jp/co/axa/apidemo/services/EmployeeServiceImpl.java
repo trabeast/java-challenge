@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService<EmployeeResponseDTO, EmployeeRequestDTO> {
@@ -20,14 +22,20 @@ public class EmployeeServiceImpl implements EmployeeService<EmployeeResponseDTO,
         this.employeeRepository = employeeRepository;
     }
 
-    public List<Employee> retrieveEmployees() {
-        List<Employee> employees = employeeRepository.findAll();
-        return employees;
+    @Override
+    public List<GetEmployeeResponseDTO> retrieveEmployees() {
+        return employeeRepository
+                .findAll()
+                .stream()
+                .map(GetEmployeeResponseDTO::new).collect(Collectors.toList());
     }
 
-    public Employee getEmployee(Long employeeId) {
-        Optional<Employee> optEmp = employeeRepository.findById(employeeId);
-        return optEmp.get();
+    public GetEmployeeResponseDTO getEmployee(Long employeeId) {
+        Optional<Employee> employee = employeeRepository.findById(employeeId);
+        if(!employee.isPresent()) {
+            throw new NoSuchElementException(String.format("Employee with id %d not found", employeeId));
+        }
+        return new GetEmployeeResponseDTO(employee.get());
     }
 
     @Override

@@ -2,7 +2,6 @@ package jp.co.axa.apidemo.controllers;
 
 import jp.co.axa.apidemo.controllers.response.ResponseWithEmployees;
 import jp.co.axa.apidemo.dtos.*;
-import jp.co.axa.apidemo.entities.Employee;
 import jp.co.axa.apidemo.services.EmployeeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,15 +28,20 @@ public class EmployeeController implements ControllerExceptionHandler {
         this.employeeService = employeeService;
     }
 
+    @SuppressWarnings("unchecked")
     @GetMapping("/employees")
-    public List<Employee> getEmployees() {
-        List<Employee> employees = employeeService.retrieveEmployees();
-        return employees;
+    public ResponseEntity<ResponseWithEmployees<GetEmployeeResponseDTO>> getEmployees() {
+        return ResponseEntity.ok (new ResponseWithEmployees<>(
+                "Employees Retrieved Successfully",
+                (List<GetEmployeeResponseDTO>) employeeService.retrieveEmployees())
+        );
     }
 
     @GetMapping("/employees/{employeeId}")
-    public Employee getEmployee(@PathVariable(name = "employeeId") Long employeeId) {
-        return employeeService.getEmployee(employeeId);
+    public ResponseEntity<ResponseWithEmployees<GetEmployeeResponseDTO>> getEmployee(@PathVariable(name = "employeeId") Long employeeId) {
+        return ResponseEntity.ok(new ResponseWithEmployees<>(
+                "Employee Retrieved Successfully",
+                Collections.singletonList((GetEmployeeResponseDTO) employeeService.getEmployee(employeeId))));
     }
 
     @PostMapping("/employees")
