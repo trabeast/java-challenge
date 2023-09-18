@@ -47,6 +47,17 @@ Application (with the embedded H2 database) is ready to be used ! You can access
 
 Please let us know more about your Java experience in a few sentences. For example:
 
-- I have 3 years experience in Java and I started to use Spring Boot from last year
-- I'm a beginner and just recently learned Spring Boot
-- I know Spring Boot very well and have been using it for many years
+- I started web development around 4 years ago. I was an Embedded engineer at first, and was curious about the web development tech stack and decided to pursue it. I landed a job using Java with Spring Boot and have been using it until now.
+- I have not yet touched on Spring Boot three though, my current experience are limited to Spring Boot 2. 
+
+#### Changes
+- Updated the spring version to 2.2.0.RELEASE. I decided to upgrade it to 2.2 to leverage Junit5's parameterized tests.
+- Added tests for the controller apis.
+- Added request parameter validation for the controller apis.
+- Added a custom exception handler to handle exceptions thrown by the controller apis.
+- Removed direct use of entities in request param and instead use data transfer objects.
+- Added caching for the employee service.
+- Added a response body that contains a message and/or a list of employees. (For POST and PUT, it returns a singleton list of employee)
+- Added logging instead of using system std output.
+- Moved dependency injection to constructor. This will help us limit our number of dependencies per bean.
+- Added few swagger documentation.
