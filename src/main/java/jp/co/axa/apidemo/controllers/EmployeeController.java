@@ -1,5 +1,6 @@
 package jp.co.axa.apidemo.controllers;
 
+import jp.co.axa.apidemo.controllers.response.Response;
 import jp.co.axa.apidemo.controllers.response.ResponseWithEmployees;
 import jp.co.axa.apidemo.dtos.*;
 import jp.co.axa.apidemo.services.EmployeeService;
@@ -56,9 +57,10 @@ public class EmployeeController implements ControllerExceptionHandler {
     }
 
     @DeleteMapping("/employees/{employeeId}")
-    public void deleteEmployee(@PathVariable(name = "employeeId") Long employeeId) {
+    public ResponseEntity<Response> deleteEmployee(@PathVariable(name = "employeeId") Long employeeId) {
         employeeService.deleteEmployee(employeeId);
         LOGGER.info("Employee Deleted Successfully");
+        return ResponseEntity.ok(new Response("Employee Deleted Successfully"));
     }
 
     @PutMapping("/employees/{employeeId}")
