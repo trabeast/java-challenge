@@ -9,7 +9,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PostEmployeeRequestDTO implements EmployeeRequestDTO {
+public class PutEmployeeRequestDTO implements EmployeeRequestDTO {
+    private Long id;
 
     @NameConstraint
     private String name;
@@ -23,10 +24,10 @@ public class PostEmployeeRequestDTO implements EmployeeRequestDTO {
     @Override
     public Employee toEmployee() {
         Employee employee = new Employee();
-        employee.setId(null);
-        employee.setName(this.getName());
-        employee.setSalary(this.getSalary());
-        employee.setDepartment(this.getDepartment());
+        employee.setId(this.id);
+        employee.setName(this.name);
+        employee.setSalary(this.salary);
+        employee.setDepartment(this.department);
         return employee;
     }
 }

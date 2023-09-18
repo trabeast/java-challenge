@@ -9,13 +9,13 @@ import org.springframework.lang.NonNull;
 @NoArgsConstructor
 @Getter
 @Setter
-public class PostEmployeeResponseDTO implements EmployeeResponseDTO {
+public class PutEmployeeResponseDTO implements EmployeeResponseDTO {
     private Long id;
     private String name;
     private Integer salary;
     private String department;
 
-    public PostEmployeeResponseDTO(@NonNull Employee employee) {
+    public PutEmployeeResponseDTO(@NonNull Employee employee) {
         this.id = employee.getId();
         this.name = employee.getName();
         this.salary = employee.getSalary();

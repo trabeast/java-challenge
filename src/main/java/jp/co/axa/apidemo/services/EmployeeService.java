@@ -1,18 +1,19 @@
 package jp.co.axa.apidemo.services;
 
 import jp.co.axa.apidemo.entities.Employee;
+import org.springframework.lang.NonNull;
 
 import java.util.List;
 
 public interface EmployeeService<T, R> {
 
-    List<Employee> retrieveEmployees();
+    @NonNull List<Employee> retrieveEmployees();
 
-    Employee getEmployee(Long employeeId);
+    @NonNull Employee getEmployee(@NonNull Long employeeId);
 
-    T saveEmployee(R employee);
+    @NonNull T saveEmployee(@NonNull R requestDTO);
 
-    void deleteEmployee(Long employeeId);
+    void deleteEmployee(@NonNull Long employeeId);
 
-    void updateEmployee(Employee employee);
+    @NonNull T updateEmployee(@NonNull R requestDTO);
 }

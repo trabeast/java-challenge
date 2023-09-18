@@ -2,6 +2,7 @@ package jp.co.axa.apidemo.controllers;
 
 import jp.co.axa.apidemo.dtos.EmployeeRequestDTO;
 import jp.co.axa.apidemo.dtos.EmployeeResponseDTO;
+import jp.co.axa.apidemo.dtos.PostEmployeeRequestDTO;
 import jp.co.axa.apidemo.services.EmployeeService;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -34,13 +35,13 @@ class EmployeeControllerPostIntegrationTests {
 
     @ParameterizedTest
     @ValueSource(strings = {"{\"name\":\"John\",\"salary\":10000,\"department\":\"IT\"}"})
-    void testPostEmployeesShouldReturn201(String requestBody) throws Exception {
+    void testPostEmployeesShouldReturn200(String requestBody) throws Exception {
         mockMvc.perform(post("/api/v1/employees")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(requestBody))
-                        .andExpect(status().isCreated());
-        verify(employeeService).saveEmployee(any());
+                        .andExpect(status().isOk());
+        verify(employeeService).saveEmployee(any(PostEmployeeRequestDTO.class));
     }
 
     @ParameterizedTest
@@ -60,6 +61,6 @@ class EmployeeControllerPostIntegrationTests {
                 .content(requestBody))
                 .andExpect(status().isBadRequest());
 
-        verify(employeeService, never()).saveEmployee(any());
+        verify(employeeService, never()).saveEmployee(any(PostEmployeeRequestDTO.class));
     }
 }

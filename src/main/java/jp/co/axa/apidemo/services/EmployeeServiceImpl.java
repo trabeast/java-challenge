@@ -1,8 +1,6 @@
 package jp.co.axa.apidemo.services;
 
-import jp.co.axa.apidemo.dtos.EmployeeRequestDTO;
-import jp.co.axa.apidemo.dtos.EmployeeResponseDTO;
-import jp.co.axa.apidemo.dtos.PostEmployeeResponseDTO;
+import jp.co.axa.apidemo.dtos.*;
 import jp.co.axa.apidemo.entities.Employee;
 import jp.co.axa.apidemo.repositories.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +30,7 @@ public class EmployeeServiceImpl implements EmployeeService<EmployeeResponseDTO,
         return optEmp.get();
     }
 
+    @Override
     public PostEmployeeResponseDTO saveEmployee(EmployeeRequestDTO requestDTO) {
         return new PostEmployeeResponseDTO(employeeRepository.save(requestDTO.toEmployee()));
     }
@@ -40,7 +39,8 @@ public class EmployeeServiceImpl implements EmployeeService<EmployeeResponseDTO,
         employeeRepository.deleteById(employeeId);
     }
 
-    public void updateEmployee(Employee employee) {
-        employeeRepository.save(employee);
+    @Override
+    public PutEmployeeResponseDTO updateEmployee(EmployeeRequestDTO requestDTO) {
+        return new PutEmployeeResponseDTO(employeeRepository.save(requestDTO.toEmployee()));
     }
 }
